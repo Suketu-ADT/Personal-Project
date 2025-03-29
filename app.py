@@ -39,7 +39,9 @@ def plot_raw_data():
 
 plot_raw_data()
 
-df_train = data[['Date', 'Close']]
+df_train = data[['Date', 'Close']].copy()
+df_train['Close'] = pd.to_numeric(df_train['Close'], errors='coerce')
+df_train = df_train.dropna()
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
 
 m = Prophet()
