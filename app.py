@@ -38,3 +38,14 @@ def plot_raw_data():
     st.plotly_chart(fig)
 
 plot_raw_data()
+
+df_train = data[['Date', 'Close']]
+df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+
+m = Prophet()
+m.fit(df_train)
+future = m.make_future_dataframe(periods=period)
+forecast = m.predict(future)
+
+st.subheader('Forecast data')
+st.write(forecast.tail())
