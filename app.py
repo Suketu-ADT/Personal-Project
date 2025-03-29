@@ -31,7 +31,9 @@ st.subheader("Raw data")
 st.write(data.tail())
 
 def plot_raw_data():
-    fig = go.Figure(data=[go.Candlestick(
+    fig = go.Figure()
+    # Add candlestick
+    fig.add_trace(go.Candlestick(
         x=data['Date'],
         open=data['Open'],
         high=data['High'],
@@ -42,7 +44,14 @@ def plot_raw_data():
         decreasing_line_width=2,
         increasing_line_color='#00ff00',
         decreasing_line_color='#ff0000'
-    )])
+    ))
+    # Add closing price line
+    fig.add_trace(go.Scatter(
+        x=data['Date'],
+        y=data['Close'],
+        name='Closing Price',
+        line=dict(color='#00b3ff', width=1.5)
+    ))
     fig.update_layout(
         title=f'{selected_stock} Share Price',
         xaxis_title='Date',
