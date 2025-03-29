@@ -32,49 +32,29 @@ st.write(data.tail())
 
 def plot_raw_data():
     fig = go.Figure()
+    
+    # 1) Stock Open line
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=data['Open'],
-        name='Stock Open',
-        line=dict(color='blue', width=2),
-        hovertemplate='<b>Date</b>: %{x}<br><b>Price</b>: $%{y:.2f}'
+        name='stock_open',
+        line=dict(color='blue', width=2)
     ))
+    
+    # 2) Stock Close line
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=data['Close'],
-        name='Stock Close',
-        line=dict(color='red', width=2),
-        hovertemplate='<b>Date</b>: %{x}<br><b>Price</b>: $%{y:.2f}'
+        name='stock_close',
+        line=dict(color='red', width=2)
     ))
-    fig.layout.update(
-        title=dict(
-            text=f"{selected_stock} Stock Price Over Time",
-            x=0.5,
-            xanchor='center'
-        ),
-        xaxis=dict(
-            title='Date',
-            gridcolor='lightgrey',
-            showgrid=True,
-            showline=True,
-            linewidth=1,
-            linecolor='lightgrey'
-        ),
-        yaxis=dict(
-            title='Price (USD)',
-            gridcolor='lightgrey',
-            showgrid=True,
-            showline=True,
-            linewidth=1,
-            linecolor='lightgrey',
-            tickformat='$,.2f'
-        ),
-        xaxis_rangeslider_visible=True,
-        template="plotly_white",
-        hovermode='x unified',
-        plot_bgcolor='aliceblue',
-        margin=dict(l=40, r=40, t=40, b=40)
+    
+    # 3) Update layout to use default Plotly styling
+    fig.update_layout(
+        title_text=f"{selected_stock} Stock Price Over Time",
+        xaxis_rangeslider_visible=True,   # Show the bottom rangeslider
+        hovermode='x unified'            # Combine hover labels if desired
+        # No 'template', 'plot_bgcolor', or extra styling so we get the default look
     )
+    
     st.plotly_chart(fig, use_container_width=True)
-
-plot_raw_data()
