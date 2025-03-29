@@ -32,9 +32,42 @@ st.write(data.tail())
 
 def plot_raw_data():
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='stock open', line=dict(color='blue', width=2)))
-    fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='stock close', line=dict(color='red', width=2)))
-    fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True, template="plotly_white", yaxis_title="Price (USD)")
-    st.plotly_chart(fig)
+    fig.add_trace(go.Scatter(
+        x=data['Date'],
+        y=data['Open'],
+        name='Stock Open',
+        line=dict(color='blue', width=2),
+        hovertemplate='<b>Date</b>: %{x}<br><b>Price</b>: $%{y:.2f}'
+    ))
+    fig.add_trace(go.Scatter(
+        x=data['Date'],
+        y=data['Close'],
+        name='Stock Close',
+        line=dict(color='red', width=2),
+        hovertemplate='<b>Date</b>: %{x}<br><b>Price</b>: $%{y:.2f}'
+    ))
+    fig.layout.update(
+        title=dict(
+            text=f"{selected_stock} Stock Price Over Time",
+            x=0.5,
+            xanchor='center'
+        ),
+        xaxis=dict(
+            title='Date',
+            gridcolor='lightgrey',
+            showgrid=True
+        ),
+        yaxis=dict(
+            title='Price (USD)',
+            gridcolor='lightgrey',
+            showgrid=True,
+            tickformat='$,.2f'
+        ),
+        xaxis_rangeslider_visible=True,
+        template="plotly_white",
+        hovermode='x unified',
+        plot_bgcolor='white'
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
 plot_raw_data()
