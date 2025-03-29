@@ -31,10 +31,21 @@ st.subheader("Raw data")
 st.write(data.tail())
 
 def plot_raw_data():
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=data["Date"], y=data["Open"], name="stock_open"))
-    fig.add_trace(go.Scatter(x=data["Date"], y=data["Close"], name="stock_close"))
-    fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
+    fig = go.Figure(data=[go.Candlestick(
+        x=data['Date'],
+        open=data['Open'],
+        high=data['High'],
+        low=data['Low'],
+        close=data['Close'],
+        name='Candlestick'
+    )])
+    fig.update_layout(
+        title=f'{selected_stock} Share Price',
+        xaxis_title='Date',
+        yaxis_title='Price (USD)',
+        xaxis_rangeslider_visible=True,
+        template='plotly_dark'
+    )
     st.plotly_chart(fig)
 
 plot_raw_data()
