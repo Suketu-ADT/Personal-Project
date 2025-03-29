@@ -37,7 +37,11 @@ def plot_raw_data():
         high=data['High'],
         low=data['Low'],
         close=data['Close'],
-        name='Candlestick'
+        name='Candlestick',
+        increasing_line_width=2,
+        decreasing_line_width=2,
+        increasing_line_color='#00ff00',
+        decreasing_line_color='#ff0000'
     )])
     fig.update_layout(
         title=f'{selected_stock} Share Price',
