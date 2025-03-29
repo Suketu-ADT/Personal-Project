@@ -42,23 +42,65 @@ def plot_raw_data():
         name='Candlestick',
         increasing_line_width=2,
         decreasing_line_width=2,
-        increasing_line_color='#00ff00',
-        decreasing_line_color='#ff0000'
+        increasing_line_color='#26a69a',
+        decreasing_line_color='#ef5350',
+        hovertext=[f'Open: ${o:.2f}<br>High: ${h:.2f}<br>Low: ${l:.2f}<br>Close: ${c:.2f}' 
+                  for o, h, l, c in zip(data['Open'], data['High'], data['Low'], data['Close'])]
     ))
     # Add closing price line
     fig.add_trace(go.Scatter(
         x=data['Date'],
         y=data['Close'],
         name='Closing Price',
-        line=dict(color='#00b3ff', width=1.5)
+        line=dict(color='red', width=1.5),
+        hovertemplate='%{y:$.2f}'
     ))
+    # Calculate y-axis range with padding
+    y_min = data[['Low']].min().min() * 0.95
+    y_max = data[['High']].max().max() * 1.05
+    
     fig.update_layout(
-        title=f'{selected_stock} Share Price',
+        title=dict(
+            text=f'{selected_stock} Share Price',
+            x=0.5,
+            xanchor='center',
+            font=dict(size=24)
+        ),
         xaxis_title='Date',
         yaxis_title='Price (USD)',
         xaxis_rangeslider_visible=True,
-        template='plotly_dark'
+        template='plotly_white',
+        height=600,
+        margin=dict(l=50, r=50, t=100, b=50, autoexpand=True),
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="right",
+            x=0.99,
+            bgcolor='rgba(0,0,0,0.5)'
+        ),
+        yaxis=dict(
+            showgrid=True,
+            gridwidth=1,
+            gridcolor='rgba(128, 128, 128, 0.2)',
+            tickformat='$,.2f',
+            title_standoff=25,
+            range=[y_min, y_max],
+            automargin=True
+        ),
+        xaxis=dict(
+            showgrid=True,
+            gridwidth=1,
+            gridcolor='rgba(128, 128, 128, 0.2)',
+            rangeslider=dict(visible=True, thickness=0.05),
+            automargin=True
+        ),
+        hoverlabel=dict(
+            bgcolor='rgba(0,0,0,0.8)',
+            font_size=12
+        )
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
 plot_raw_data()
