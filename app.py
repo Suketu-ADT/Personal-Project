@@ -55,18 +55,25 @@ def plot_raw_data():
         xaxis=dict(
             title='Date',
             gridcolor='lightgrey',
-            showgrid=True
+            showgrid=True,
+            showline=True,
+            linewidth=1,
+            linecolor='lightgrey'
         ),
         yaxis=dict(
             title='Price (USD)',
             gridcolor='lightgrey',
             showgrid=True,
+            showline=True,
+            linewidth=1,
+            linecolor='lightgrey',
             tickformat='$,.2f'
         ),
         xaxis_rangeslider_visible=True,
         template="plotly_white",
         hovermode='x unified',
-        plot_bgcolor='white'
+        plot_bgcolor='aliceblue',
+        margin=dict(l=40, r=40, t=40, b=40)
     )
     st.plotly_chart(fig, use_container_width=True)
 
